@@ -2,7 +2,10 @@
   (:require [compojure.api.sweet :refer :all]
             [ring.util.http-response :refer :all]
             [compojure.api.examples.domain :refer :all]
-            [schema.core :as s]))
+            [schema.core :as s]
+            [compojure.handler :refer [site]]
+            [ring.adapter.jetty :as jetty]
+            [environ.core :refer [env]]))
 
 (s/defschema Total {:total Long})
 
@@ -84,3 +87,7 @@
         :path-params [id :- Long]
         :summary "Deletes a Pizza"
         (ok (delete! id))))))
+
+(defn -main [& [port]]
+  (let [port (Integer. (or port (env :port) 5000))]
+    (jetty/run-jetty (site #'app) {:port port :join? false})))
