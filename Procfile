@@ -1,1 +1,1 @@
-web: java $JVM_OPTS -cp target/example.jar clojure.main -m compojure.api.examples.handler
+web: java $JVM_OPTS -cp target/examples.jar clojure.main -m compojure.api.examples.handler
